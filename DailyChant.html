@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>The Daily Chant</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            margin: 0;
             background: #f0f8ff;
+            font-size: 1.2em;
+            max-width: 100%;
+			padding: 10px;
         }
         h1 {
             color: #2e8b57;
+            font-size: 2em; /* scales with screen */
         }
         ol {
             list-style-type: decimal;
@@ -35,6 +39,10 @@
         }
         .video-item a:hover {
             text-decoration: underline;
+        }
+        img {
+           max-width: 100%;
+           height: auto;
         }
     </style>
 </head>
