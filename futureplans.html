@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Future Plans & Resources – Retreats</title>
+  <meta name="description" content="Weekly online retreat and in-person retreat (Malaysia) schedule and details." />
+  <style>
+    :root{
+      --bg:#0b1020;         /* deep navy */
+      --card:#111833;       /* card background */
+      --ink:#eef2ff;        /* text */
+      --muted:#b6c2ff;      /* secondary text */
+      --accent:#6ea8fe;     /* accents */
+      --accent-2:#8bd9c7;   /* soft accent */
+      --ring: rgba(110,168,254,.45);
+      --shadow: 0 10px 25px rgba(0,0,0,.35);
+      --radius: 20px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(139,217,199,.15), transparent),
+                  radial-gradient(1000px 600px at -10% 110%, rgba(110,168,254,.12), transparent),
+                  var(--bg);
+      color:var(--ink);
+      line-height:1.6;
+    }
+    .wrap{max-width: 960px; margin: 24px auto 56px; padding: clamp(16px, 2vw, 24px);}    
+    header{
+      display:grid; gap:.5rem; justify-items:start; margin-bottom: 18px;
+    }
+    h1{
+      font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+      margin: 0;
+      letter-spacing:.3px
+    }
+    .tagline{color:var(--muted); font-size: clamp(.95rem, 2.2vw, 1.05rem)}
+
+    .grid{display:grid; gap:20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));}
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)) , var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.06);
+      position: relative; overflow:hidden;
+    }
+    .card:focus-within{outline:2px solid var(--ring)}
+    .card .bar{height:6px; background: linear-gradient(90deg, var(--accent), var(--accent-2));}
+    .card .content{padding: 18px 18px 20px}
+    .card h2{margin:.2rem 0 0.6rem; font-size: clamp(1.2rem, 3vw, 1.5rem)}
+
+    .kv{display:grid; gap:8px}
+    .row{display:grid; grid-template-columns: 26px 1fr; gap:12px; align-items:start}
+    .label{color:var(--muted)}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px;
+      border-radius: 999px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08);
+      font-size:.92rem
+    }
+
+    .note{margin-top:10px; color:var(--muted); font-size:.95rem}
+    .footer{margin-top: 22px; display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
+      background: rgba(110,168,254,.15); color:var(--ink); border:1px solid rgba(110,168,254,.35);
+      text-decoration:none; transition: transform .08s ease; box-shadow: 0 6px 16px rgba(110,168,254,.15);
+    }
+    .btn:hover{transform: translateY(-1px)}
+
+    .subtle{opacity:.9}
+
+    /* Responsive tweaks */
+    @media (max-width:520px){
+      .row{grid-template-columns: 24px 1fr}
+      .btn{width:100%; justify-content:center}
+    }
+
+    /* Print styles */
+    @media print{
+      body{background:#fff; color:#111}
+      .card{box-shadow:none; border:1px solid #ddd}
+      .bar{display:none}
+      .btn{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>FUTURE PLANS &amp; RESOURCES</h1>
+      <div class="tagline">All times in Malaysia Time (MYT, UTC+8)</div>
+    </header>
+
+    <section class="grid" aria-label="Retreats">
+      <!-- Weekly Online Retreat -->
+      <article class="card" aria-labelledby="online-title">
+        <div class="bar" aria-hidden="true"></div>
+        <div class="content">
+          <h2 id="online-title">🧘‍♂️ Weekly Online Retreat</h2>
+          <div class="kv">
+            <div class="row"><div>⏰</div><div><span class="label">Time</span><br>Every Sunday evening</div></div>
+            <div class="row"><div>🗓️</div><div><span class="label">Schedule</span><br>7:00 PM – 8:30 PM (MYT)</div></div>
+            <div class="row"><div>🧑‍🦲</div><div><span class="label">Note</span><br>Venerable monks will join once a month.</div></div>
+          </div>
+
+          <div class="footer">
+            <span class="pill" title="Recurring weekly">↻ Recurs weekly</span>
+            <!-- Placeholder action buttons; link these to your real URLs -->
+            <!-- <a class="btn" href="#" target="_blank" rel="noopener">Join via Zoom</a> -->
+            <!-- <a class="btn" href="#" target="_blank" rel="noopener">Add to Calendar</a> -->
+          </div>
+        </div>
+      </article>
+
+      <!-- In-Person Retreat (Malaysia) -->
+      <article class="card" aria-labelledby="inperson-title">
+        <div class="bar" aria-hidden="true"></div>
+        <div class="content">
+          <h2 id="inperson-title">🏞️ In‑Person Retreat (Malaysia)</h2>
+          <div class="kv">
+            <div class="row"><div>⏰</div><div><span class="label">Time</span><br>9:00 AM – 5:00 PM (MYT)</div></div>
+            <div class="row"><div>📅</div><div><span class="label">Date</span><br>31 August 2025</div></div>
+            <div class="row"><div>📍</div><div><span class="label">Address</span><br>TI‑RATANA HEIGHTS, PT 8604, Jalan Sri Serdang, Taman Desa Sedang, 43300 Seri Kembangan, Selangor</div></div>
+          </div>
+
+          <div class="footer">
+            <!-- Optional buttons; replace # with real links -->
+            <!-- <a class="btn" href="#" target="_blank" rel="noopener">Get Directions</a> -->
+            <!-- <a class="btn" href="#" target="_blank" rel="noopener">Register</a> -->
+          </div>
+        </div>
+      </article>
+    </section>
+        <p><a href="index.html">← Back to Home</a></p>
+  </div>
+
+  <!-- Structured data (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "EventSeries",
+        "name": "Weekly Online Retreat",
+        "eventSchedule": {
+          "@type": "Schedule",
+          "repeatFrequency": "P1W",
+          "byDay": ["https://schema.org/Sunday"],
+          "startTime": "19:00",
+          "endTime": "20:30",
+          "scheduleTimezone": "Asia/Kuala_Lumpur"
+        },
+        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+        "description": "Weekly online retreat. Venerable monks will join once a month.",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "Event",
+        "name": "In‑Person Retreat (Malaysia)",
+        "startDate": "2025-08-31T09:00:00+08:00",
+        "endDate": "2025-08-31T17:00:00+08:00",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {
+          "@type": "Place",
+          "name": "TI‑RATANA HEIGHTS",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "PT 8604, Jalan Sri Serdang, Taman Desa Sedang",
+            "addressLocality": "Seri Kembangan",
+            "postalCode": "43300",
+            "addressRegion": "Selangor",
+            "addressCountry": "MY"
+          }
+        },
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
+</body>
+</html>
