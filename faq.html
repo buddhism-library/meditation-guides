@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ from Google Sheet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center p-8">
+
+  <div class="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Frequently Asked Questions</h2>
+
+    <!-- Search Bar -->
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search questions..."
+      class="w-full mb-4 px-4 py-2 border rounded-lg text-gray-700"
+    >
+
+    <!-- FAQ Container -->
+    <div id="faqContainer"></div>
+  </div>
+
+  <script>
+    // JSON feed URL for your Google Sheet (Questions + Answers in first 2 columns)
+    const jsonURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEAeACswKxmAoD1kio075pLNzG4h2PGUFaNBuoltsSmbLcvzhaXH61XPpZpLNxv-RGI4m6B1BCt4g/gviz/tq?tqx=out:json";
+
+    fetch(jsonURL)
+      .then(res => res.text())
+      .then(text => {
+        // Google wraps JSON in a function call, so we need to trim
+        const json = JSON.parse(text.substring(47, text.length - 2));
+        const rows = json.table.rows;
+
+        // Extract Q&A (assuming column A = Question, column B = Answer)
+        const faqs = rows.map(r => ({
+          q: r.c[0]?.v || "",
+          a: r.c[1]?.v || ""
+        })).filter(r => r.q && r.a);
+
+        const faqContainer = document.getElementById("faqContainer");
+
+        // Render FAQ items
+        faqs.forEach(({ q, a }) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "border-b py-4";
+          itemDiv.innerHTML = `
+            <button class="w-full flex justify-between items-center text-left text-lg font-medium text-gray-700 question">
+              <span>${q}</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="answer hidden mt-2 text-gray-600">${a}</div>
+          `;
+          faqContainer.appendChild(itemDiv);
+        });
+
+        // Toggle expand/collapse
+        document.querySelectorAll(".question").forEach(qBtn => {
+          qBtn.addEventListener("click", () => {
+            const ans = qBtn.nextElementSibling;
+            const icon = qBtn.querySelector(".icon");
+            ans.classList.toggle("hidden");
+            icon.textContent = ans.classList.contains("hidden") ? "+" : "−";
+          });
+        });
+
+        // Search filter
+        document.getElementById("searchInput").addEventListener("input", function() {
+          const searchVal = this.value.toLowerCase();
+          document.querySelectorAll("#faqContainer .border-b").forEach(div => {
+            const text = div.textContent.toLowerCase();
+            div.style.display = text.includes(searchVal) ? "block" : "none";
+          });
+        });
+      })
+      .catch(err => {
+        document.getElementById("faqContainer").innerHTML = "<p class='text-red-500'>Error loading FAQ. Check the sheet link.</p>";
+        console.error(err);
+      });
+  </script>
+
+</body>
+</html>
