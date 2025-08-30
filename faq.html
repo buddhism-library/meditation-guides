@@ -1,85 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ from Google Sheet</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Questions</title>
+  <style>
+    :root {
+      --maxw: 860px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.6;
+      color: #0f172a;
+      background: #f8fafc;
+    }
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+      padding: 2rem;
+    }
+	h1 {
+		color: #2e8b57;
+		font-size: 2em; /* scales with screen */
+	}
+    p.lead { color: #475569; margin-top: 0; }
+
+    ol {
+      margin: 1.5rem 0 0;
+      padding-left: 1.25rem;
+    }
+    li {
+      margin: 0.5rem 0 0.5rem 0.25rem;
+      padding: 0.25rem 0;
+    }
+    .q {
+      font-weight: 600;
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+    .q:hover { text-decoration: underline; }
+    li + li { border-top: 1px dashed #e2e8f0; padding-top: 0.75rem; }
+
+    .actions { margin-top: 1.25rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 0.9rem;
+      border-radius: 12px;
+      text-decoration: none;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .btn:hover { background: #eef2ff; border-color: #c7d2fe; }
+  </style>
 </head>
-<body class="bg-gray-100 flex justify-center p-8">
+<body>
+  <main class="container" aria-labelledby="page-title">
+    <a href="index.html" class="back">← Back to Home</a>
+    <h1 id="page-title">🤔 All Questions</h1>
+    <p class="lead">Click on a question to open its answer page.</p>
+    <ol>
+      <li><a class="q" href="faq/q1.html">What is the address of Phat Quang Pagoda?</a></li>
+      <li><a class="q" href="faq/q2.html">Can I close my eyes when meditating?</a></li>
+      <li><a class="q" href="faq/q3.html">During meditation, my head keeps running with thoughts nonstop. How can I calm it down?</a></li>
+      <li><a class="q" href="faq/q4.html">My monkey mind don't let me sleep.. how to solve this issue? Strange cos I don't have stress</a></li>
+      <li><a class="q" href="faq/q5.html">During meditation, can we try to imagine the love from the universe when we inhale, and then we exhale the love back to all?</a></li>
+      <li><a class="q" href="faq/q6.html">Why should we live for others?</a></li>
+      <li><a class="q" href="faq/q7.html">How Buddhist meditation differ form other types of mediation?</a></li>
+    </ol>
 
-  <div class="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">Frequently Asked Questions</h2>
-
-    <!-- Search Bar -->
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search questions..."
-      class="w-full mb-4 px-4 py-2 border rounded-lg text-gray-700"
-    >
-
-    <!-- FAQ Container -->
-    <div id="faqContainer"></div>
-  </div>
-
-  <script>
-    // JSON feed URL for your Google Sheet (Questions + Answers in first 2 columns)
-    const jsonURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXEAeACswKxmAoD1kio075pLNzG4h2PGUFaNBuoltsSmbLcvzhaXH61XPpZpLNxv-RGI4m6B1BCt4g/gviz/tq?tqx=out:json";
-
-    fetch(jsonURL)
-      .then(res => res.text())
-      .then(text => {
-        // Google wraps JSON in a function call, so we need to trim
-        const json = JSON.parse(text.substring(47, text.length - 2));
-        const rows = json.table.rows;
-
-        // Extract Q&A (assuming column A = Question, column B = Answer)
-        const faqs = rows.map(r => ({
-          q: r.c[0]?.v || "",
-          a: r.c[1]?.v || ""
-        })).filter(r => r.q && r.a);
-
-        const faqContainer = document.getElementById("faqContainer");
-
-        // Render FAQ items
-        faqs.forEach(({ q, a }) => {
-          const itemDiv = document.createElement("div");
-          itemDiv.className = "border-b py-4";
-          itemDiv.innerHTML = `
-            <button class="w-full flex justify-between items-center text-left text-lg font-medium text-gray-700 question">
-              <span>${q}</span>
-              <span class="icon">+</span>
-            </button>
-            <div class="answer hidden mt-2 text-gray-600">${a}</div>
-          `;
-          faqContainer.appendChild(itemDiv);
-        });
-
-        // Toggle expand/collapse
-        document.querySelectorAll(".question").forEach(qBtn => {
-          qBtn.addEventListener("click", () => {
-            const ans = qBtn.nextElementSibling;
-            const icon = qBtn.querySelector(".icon");
-            ans.classList.toggle("hidden");
-            icon.textContent = ans.classList.contains("hidden") ? "+" : "−";
-          });
-        });
-
-        // Search filter
-        document.getElementById("searchInput").addEventListener("input", function() {
-          const searchVal = this.value.toLowerCase();
-          document.querySelectorAll("#faqContainer .border-b").forEach(div => {
-            const text = div.textContent.toLowerCase();
-            div.style.display = text.includes(searchVal) ? "block" : "none";
-          });
-        });
-      })
-      .catch(err => {
-        document.getElementById("faqContainer").innerHTML = "<p class='text-red-500'>Error loading FAQ. Check the sheet link.</p>";
-        console.error(err);
-      });
-  </script>
-
+    <a href="index.html" class="back">← Back to Home</a>
+  </main>
 </body>
 </html>
