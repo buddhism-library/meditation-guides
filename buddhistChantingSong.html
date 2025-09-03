@@ -234,8 +234,10 @@
     // Build playlist
     tracks.forEach((track, index) => {
       const li = document.createElement("li");
-      li.innerHTML = `<span>${track.title}<a class="download" href="${track.dl}">📥Mp3</a><a class="download" href="${track.pdf}">🎼Lyrics</a></span>
-        `;
+      li.innerHTML = `<span>${track.title}</span>
+      <span>
+        <a class="download" href="${track.dl}">📥Mp3</a>
+        <a class="download" href="${track.pdf}">🎼Lyrics</a><span>`;
       li.onclick = () => {
         current = index;
         loadTrack();
