@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Playlist</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .player-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      text-align: center;
+    }
+    h3 {
+      margin-top: 0;
+    }
+    .player-controls {
+      margin-bottom: 10px;
+    }
+    iframe {
+      width: 100%;
+      height: 80px;
+      border: none;
+     display: block;
+    }
+    /* Scrolling text */
+    .scrolling-title {
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 8px 0 15px;
+    }
+    .scrolling-title span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 10s linear infinite;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Playlist panel below player */
+    .playlist-container {
+      width: 100%;
+      max-height: 300px;
+      overflow-y: auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 10px;
+      margin-top: 15px;
+      text-align: left;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      padding: 8px;
+      margin: 5px 0;
+      background: #f0f0f0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li:hover {
+      background: #e0e7ff;
+    }
+    li.active {
+      background: #4f46e5;
+      color: #fff;
+      font-weight: bold;
+    }
+    a.download {
+      font-size: 14px;
+      text-decoration: none;
+      color: #2563eb;
+      background: #e0e7ff;
+      padding: 3px 6px;
+      border-radius: 4px;
+    }
+    a.download:hover {
+      background: #c7d2fe;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="player-box">
+    <h3>Now Playing 🎶</h3>
+    <div class="player-controls">
+      <iframe id="player" src="" allow="autoplay"></iframe>
+    </div>
+    <!-- Scrolling current track title -->
+    <div class="scrolling-title"><span id="current-title">Loading...</span></div>
+
+    <div class="playlist-container">
+      <h3>Playlist</h3>
+      <ul id="playlist"></ul>
+    </div>
+  </div>
+
+  <script>
+    const tracks = [
+      { title: "01.1 HOMAGE TO BUDDHA - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1TZqVaG1dQKyJAS3DTcXTEicZiLaGgvip/preview" },
+      { title: "01.2 HOMAGE TO BUDDHA - Olya & Thomas", url: "https://drive.google.com/file/d/1QadlJJPci_1aB7UAgcBpPQehz_Ozbpxk/preview" },
+      { title: "02. THREE DEFERENTIAL BOWS - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1Y7-DS4r0jhcEmbhWTIzKOnX8WDQLyT6B/preview" },
+      { title: "03. BUDDHIST DAILY CHANT", url: "https://drive.google.com/file/d/1YN0HYYP-NgzGiKDYt9ZzLrUvBGwgMB1i/preview" },
+      { title: "04. SOLEMN PRAYERS - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1199LqGXCpdhU2Z4EFPLMgkf2iJDX-Xcf/preview" },  
+      { title: "05. CHANT OF MEDITATION - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1NtFJ5lA0sVQI6tgsnY4tpD4VkdCaqh06/preview" },
+      { title: "06.1 CHANT OF KARMA LAW - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1sa4_AKxtYDEAPqTwseqo59K71k7yL6S3/preview" },
+      { title: "06.2 CHANT OF KARMA LAW - Olya", url: "https://drive.google.com/file/d/1cGigisBC1c9tpHfbmPp8y6aNLdnHde8S/preview" },
+      { title: "07.1 CHANT OF COMPASSION REPENTANCE - MASTER", url: "https://drive.google.com/file/d/1auuNm9tzLfWb1RNvlI_S0Xhfcxpdsi5L/preview" },
+      { title: "07.2 CHANT OF COMPASSION REPENTANCE - Olya & Joe", url: "https://drive.google.com/file/d/1SO54prDZ6ZoSaSh13fa7TMUUqDpHXhv_/preview" },
+      { title: "08. SUTRA EIGHTFOLD PATH", url: "https://drive.google.com/file/d/1rt2nCBk68s98PHboPsW7cvvcDtZS_rKs/preview" },
+      { title: "09. RIGHT WAY OF MEDITATION", url: "https://drive.google.com/file/d/1MDmWpoOJKiChwEMa-ytSNJCniSb_uqhl/preview" },
+      { title: "10. CHANT AT MEDITATION BEGINNING - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1UEgGlHo9ty-XPpm2OgnJJjYQCsNXjBWP/preview" },
+      { title: "11. CHANT AT MEDITATION ENDING - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1U--3qQjWVCEfSqie240iyuY5uBRSJcJu/preview" },
+      { title: "12. THREE DEVOTIONS - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/1TK6R9D7HsL4utF3LIWI5CGHCT8125A2h/preview" },
+      { title: "13. PRAYER BEFORE MEAL", url: "https://drive.google.com/file/d/1sN7QkzblDHRMCn1ef-iyxns_2FlqCJge/preview" },
+      { title: "14. GRATITUDE", url: "https://drive.google.com/file/d/173Td4uwr86H14RosFZIBKpjhD4x-YXOC/preview" },
+      { title: "15. A NEW WORLD", url: "https://drive.google.com/file/d/1kEotFfIuzmn3kXsJNW6XtvDwqXK3aYVu/preview" },
+      { title: "16. BLOOD IN MY HEART", url: "https://drive.google.com/file/d/1CXD6z_KVRB8tkLWTPeqwtKOS6swhtGs3/preview" },
+      { title: "17. BUDDHA COME", url: "https://drive.google.com/file/d/13ZMxkcgFpf8Zr3uivXKFoVxgeLikkwhJ/preview" },
+      { title: "18. BUDDHA'S TEACHINGS", url: "https://drive.google.com/file/d/145hnseZ7fplNNOBsflZa0RpE9C4huzva/preview" },
+      { title: "19. HOLY VESAK", url: "https://drive.google.com/file/d/1xky3_3OSa9cY20bLTPJJ8GeCgUvcFW43/preview" },
+      { title: "20. HUMAN IN COMMON LOVE", url: "https://drive.google.com/file/d/1OOYrqZxjo_SlHpANUCGTWF0H4sC1etq_/preview" },
+      { title: "21. NIGHT OF ENLIGHTENMENT", url: "https://drive.google.com/file/d/1YnQplLa-BzSSM_h0wdgMCui8O5At-t-1/preview" },
+      { title: "22. OUR EARTH HOME", url: "https://drive.google.com/file/d/12K_jpLRFs05ldl8ivgETOpKX0FM1Nt4v/preview" },
+      { title: "23. SMALL WORLD", url: "https://drive.google.com/file/d/1ADNUAtRcT7F01xMlEMRtH5iR3A1B6P_r/preview" },
+      { title: "24. OUR SAME SORROW", url: "https://drive.google.com/file/d/1_ms7a5QE_z8vt9JkyxcaPitnDKxTcI-J/preview" },
+      { title: "25. THE HAPPY DAY (Wedding song)", url: "https://drive.google.com/file/d/1J7AOzWbUMY_g-ojjp3f-VJvvd0iObZMT/preview" },
+      { title: "26. THANKS TO BUDDHA", url: "https://drive.google.com/file/d/1DfA7e0O_2hfBGlADbkS6SCaEUlHRQCz7/preview" },
+      { title: "27. WILD MIND", url: "https://drive.google.com/file/d/1xgd_lon7ELlYCrD9wTdlzIEuPZHpzrvU/preview" },
+      { title: "28.1 THE ENDLESS SUN OF THE WORLD - Ven. Thich Chan Quang", url: "https://drive.google.com/file/d/157hwZt6RatKgGiBuU8kmL196G65hNjo6/preview" },
+      { title: "28.2 THE ENDLESS SUN OF THE WORLD - R. Barba & P. Thomas", url: "https://drive.google.com/file/d/12K-aWsCyp3HflY3rVslIU5H54RxFMqqk/preview" },
+      { title: "29. REALLY WANT TO", url: "https://drive.google.com/file/d/1B_FZ_BmkxNQTVhlTV9dpXlmgmhIFs8js/preview" },
+      { title: "30. LIGHT OF THE WORLD - Qwen", url: "https://drive.google.com/file/d/1yAS7KqI-noxfgHd844oaK6w9CYTxXDT5/preview" },
+      { title: "31. ONE DAY THE WORLD - song ca SUNO", url: "https://drive.google.com/file/d/1BMGUfIUfwHzy9MXKFnVvwCiVUGjtzCrm/preview" },
+      { title: "32. OUR PATH - Olya", url: "https://drive.google.com/file/d/1OJZB10uRouxZYSnxtM5151FVg34rc84R/preview" },
+      { title: "33. THE WORLD WE DREAM - Olya", url: "https://drive.google.com/file/d/1TC10_SvGKMNNOiRmVS-yXb8KhZ7H0BpR/preview" },
+      { title: "34. BOUNDLESS GRACE - Selyna", url: "https://drive.google.com/file/d/1-VNsoYtqkKiRo0xFjFwqgFsHS-SOUkOQ/preview" }
+    ];
+
+    let current = 0;
+    const player = document.getElementById("player");
+    const playlist = document.getElementById("playlist");
+    const currentTitle = document.getElementById("current-title");
+
+    function loadTrack() {
+      player.src = tracks[current].url;
+      currentTitle.textContent = tracks[current].title;
+      updateActive();
+    }
+
+    function updateActive() {
+      [...playlist.children].forEach((li, i) => {
+        li.classList.toggle("active", i === current);
+      });
+    }
+
+    // Build playlist
+    tracks.forEach((track, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${track.title}</span>
+        <a class="download" href="${track.url}" download title="Download">⬇️</a>`;
+      li.onclick = () => {
+        current = index;
+        loadTrack();
+      };
+      playlist.appendChild(li);
+    });
+
+    // Start with first track
+    loadTrack();
+  </script>
+</body>
+</html>
