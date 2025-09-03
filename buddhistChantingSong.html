@@ -221,9 +221,11 @@
     const currentTitle = document.getElementById("current-title");
 
     function loadTrack() {
-      player.src = tracks[current].url;
-      currentTitle.textContent = tracks[current].title;
-      updateActive();
+      if(player.src !== tracks[current].url) {
+          player.src = tracks[current].url;
+          currentTitle.textContent = tracks[current].title;
+          updateActive();
+      }
     }
 
     function updateActive() {
@@ -239,8 +241,8 @@
         <a class="download" href="${track.dl}">📥</a>
         <a class="download" href="${track.pdf}">🎼</a><span>`;
       li.onclick = () => {
-        current = index;
-        loadTrack();
+          current = index;
+          loadTrack();
       };
       playlist.appendChild(li);
     });
