@@ -108,7 +108,7 @@
 <body>
   <div class="player-box">
     <p><a href="index.html">← Back to Home</a></p>
-    <h1>🌸 BUDDHIST CHANTING SONG</h1>
+    <h1>🌸 BUDDHIST CHANTING SONGS</h1>
     <!div class="player-controls">
       <iframe id="player" src="" allow="autoplay"></iframe>
     </div>
@@ -238,8 +238,7 @@
     tracks.forEach((track, index) => {
       const li = document.createElement("li");
       li.innerHTML = `<span>${track.title}
-        <a class="download" href="${track.dl}">📥</a>
-        <a class="download" href="${track.pdf}">🎼</a><span>`;
+        <a class="download" href="${track.dl}"> 📥</a><span>`;
       li.onclick = () => {
           current = index;
           loadTrack();
